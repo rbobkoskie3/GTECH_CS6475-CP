@@ -1,0 +1,70 @@
+HOW TO RUN: Open and run 'assignment4.py'. Be sure to include the directory 'test_images', and
+	    an image in the 'test_images' directory in the same WORKING directory as the
+	    python code.
+
+	    Open and run 'edge_detector.py'. Be sure to include an image (italy 09 047.jpg)
+	    in the same WORKING directory as the python code.
+
+
+================================================
+    pad = (kernel.shape[0] - 1) / 2
+    image = image.astype(np.int16)
+
+    # Insert  row(s)
+    count = 1
+    for x in range(pad):
+        pix_row = []
+        for pix in image[x + count]:
+            pix_row.append(pix)
+        count +=1
+        pix_row = [pix_row]
+        image = np.insert(image, [0], pix_row, axis=0)
+
+    # Append row(s)
+    count = 2
+    for x in range(pad):
+        pix_row = []
+        for pix in image[image.shape[0] - x - count]:
+            pix_row.append(pix)
+        count +=1
+        pix_row = [pix_row]
+        image = np.append(image, pix_row, axis=0)
+
+    # Insert  columns(s)
+    count = 1
+    for x in range(pad):
+        pix_col = []
+        for pix in image[:, x + count]:
+            pix_col.append(pix)
+        count +=1
+        pix_col = [pix_col]
+        pix_col = np.array(pix_col)
+        image = np.insert(image, [0], pix_col.T, axis=1)
+
+    # Append columns(s)
+    count = 2
+    for x in range(pad):
+        pix_col = []
+        for pix in image[:, image.shape[1] - x - count]:
+            pix_col.append(pix)
+        count +=1
+        pix_col = [pix_col]
+        pix_col = np.array(pix_col)
+        image = np.append(image, pix_col.T, axis=1)
+
+    #print '\n', image, type(image)
+    #print '\n', testNumpyMB == image
+
+    raterize_img = np.zeros(shape=(image.shape[0], image.shape[1]), dtype=np.int16)
+    for x in range(pad, image.shape[0] - pad):
+        for y in range(pad, image.shape[1] - pad):
+            pix_arr = image[x-pad:x+pad+1, y-pad:y+pad+1]
+            pix = np.sum(np.sum(np.multiply(pix_arr, kernel), axis=0))
+            raterize_img.itemset(x, y, pix)
+
+
+    raterize_img = raterize_img[pad:image.shape[0]-pad, pad:image.shape[1]-pad]
+    raterize_img = raterize_img.astype(np.int16)
+    #print '\n', raterize_img
+
+    return raterize_img

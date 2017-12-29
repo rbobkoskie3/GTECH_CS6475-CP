@@ -1,0 +1,14 @@
+HOW TO RUN: Open and run 'assignment8_test.py'. Be sure to include the directory 'images', and
+	    the code 'assignment8.py' in the same WORKING directory as 'assignment8_test.py'.
+
+
+================================================
+// Nice example for slicing across an image with 3 RGB layers:
+
+    for channel in range(3):
+        #print 'CHAN ---', black_img.shape, white_img.shape, mask_img.shape
+        outimg = run_blend(black_img[:,:,channel], white_img[:,:,channel], \
+                           mask_img[:,:,channel])
+
+        out_layers.append(outimg)
+    outimg = cv2.merge(out_layers)

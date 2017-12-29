@@ -1,0 +1,1 @@
+This is where assignment8_test.py writes the output images to.
